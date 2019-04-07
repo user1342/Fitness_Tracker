@@ -49,19 +49,23 @@ class MainActivity : AppCompatActivity() {
 
                     // value of item that is clicked
                     val itemValue = listView.getItemAtPosition(position) as String
-                    val textToDisplay = "Starting: $itemValue"
+                    // This is then displayed to
 
+                    // This takes the item from the selected list and looks it up in the hashmap, returning it's related list
                     val activityList = mapOfActivities[itemValue]
 
-                    showSnack(view,textToDisplay)
+                    showSnack(view,"Starting: $itemValue")
 
+                    // This asynchronously loops through each item in the list
                     GlobalScope.async {
                         activityList?.forEach {
                             setActivity(it, 30)
                         }
+                        // After all items in the list have run it will set the isRunning back to false.
                         isRunning = false
                     }
                 }else{
+                    // Shows an error message if an activity is already running
                     showSnack(view,"Finish current activity first...")
                 }
 
@@ -73,10 +77,12 @@ class MainActivity : AppCompatActivity() {
     fun setActivity(activityName: String, duration: Int) {
         speak("Next Up $activityName")
 
+        //Runs any changes to the UI on the UI thread
         runOnUiThread {
             activityNameView.setText(activityName)
         }
 
+        // Loops down from a range to 0 and waits 1 second sbetween each, this functions as a countdown.
         for (i in duration downTo 0) {
             runOnUiThread {
                 countdown.setText(i.toString())
@@ -85,12 +91,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // Runs the text to speech code
     fun speak(words: String) {
         TTS(this@MainActivity, words)
     }
 
+    //Runs Snackbar code
     fun showSnack(view: View, text:String){
-        var snackbar = Snackbar.make(view, "$text",
+        val snackbar = Snackbar.make(view, text,
                 Snackbar.LENGTH_LONG)
         snackbar.show()
     }
