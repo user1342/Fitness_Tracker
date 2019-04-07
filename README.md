@@ -1,4 +1,4 @@
-# Fitness_Tracker Kotlin App
+# Fitness_Tracker Kotlin Android App
 A basic Android app written in Kotlin that runs a series of short fitness activities. This app uses:
 * Android Text To Speech
 * The Android Snackbar
